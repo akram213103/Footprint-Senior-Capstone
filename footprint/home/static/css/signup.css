@@ -1,0 +1,184 @@
+/* ================================
+   General Signup Page Styles
+================================ */
+html, body {
+  height: 100%;
+
+}
+
+
+
+.signup-page {
+  font-family: 'Roboto', sans-serif;
+  background-color: #e0e0e0; 
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================================
+   Main Content Styles
+================================ */
+main {
+  width: 100%;
+  max-width: 1200px; 
+  margin: 120px auto 20px; 
+  padding: 0 20px;
+  flex: 1;
+  padding-top: 90px;
+}
+
+/* Container Styles */
+.container {
+  width: 95%;
+  max-width: 1200px; 
+  margin: 0 auto;
+}
+
+.signup-form-section {
+  background-color: #fff;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.signup-page h2 {
+  color: #000;
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.signup-page form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-page label {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* ================================
+   Input Styles
+================================ */
+.signup-page input[type="text"], 
+.signup-page input[type="email"], 
+.signup-page input[type="password"] {
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.signup-page input[type="text"]:focus, 
+.signup-page input[type="email"]:focus, 
+.signup-page input[type="password"]:focus {
+  border-color: #000;
+  outline: none;
+}
+
+/* ================================
+   Button Styles
+================================ */
+.signup-page button[type="submit"] {
+  background-color: #3fb2d8;
+  color: #000;
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.signup-page button[type="submit"]:hover {
+  background-color: #6cc8ec;
+}
+
+/* ================================
+   Redirect Section
+================================ */
+.redirect-section p {
+  font-size: 1.1em;
+  margin: 10px 0;
+}
+
+/* General link styling */
+a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   Footer Styles
+================================ */
+.signup-page footer {
+  width: 100%;
+  text-align: center;
+  color: #666;
+  padding: 10px 0;
+  background-color: #fff;
+  border-top: 2px solid #000;
+  margin-top: auto;
+  position: fixed; 
+  bottom: 0;
+}
+
+.signup-page footer p {
+  margin: 0;
+  font-size: 1em;
+}
+
+
+
+/*=======================
+toggling password visibality
+=========================== */
+
+/* Password container to hold input and toggle */
+.password-container {
+  position: relative;
+  width: 100%; 
+  margin-bottom: 15px; 
+}
+
+/* Show/Hide toggle text styling */
+.toggle-text {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  height: 20px;
+  width: 20px;
+  transform: translateY(-80%);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-text:hover {
+  opacity: 0.6;
+}
+
+/* Remove browser's built-in password visibility icon */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-clear-button,
+input[type="password"]::-webkit-inner-spin-button,
+input[type="password"]::-webkit-outer-spin-button {
+    display: none;
+}

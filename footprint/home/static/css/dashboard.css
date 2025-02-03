@@ -1,0 +1,816 @@
+/* ================================
+   Dashboard Page Styles
+================================ */
+
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #e0e0e0; 
+    color: #000;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.attribute-group {
+    text-align: center; 
+    margin: 20px 0; 
+}
+
+/* Used in Top Middle Bottom sections */
+.section-title {
+    background-color: #007BFF; 
+    color: white; 
+    text-align: center; 
+    font-weight: bold; 
+    font-size: 18px; 
+    padding: 10px; 
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.table-header {
+    background-color: #808080; 
+    color: white; 
+    text-align: center; 
+    font-size: 24px; 
+    font-weight: bold; 
+    padding: 10px 0; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
+    margin-bottom: 20px; 
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 20px;
+    padding: 40px 0;
+    flex-grow: 1;
+}
+
+/* Attribute Buttons with Image Background */
+.attribute-btn {
+    all: unset; 
+    display: inline-flex;
+    justify-content: center;
+    align-items: center; 
+    width: 55px; 
+    height: 55px;
+    border-radius: 20%; 
+    margin: 5px; 
+    cursor: pointer;
+    background-size: cover; 
+    background-position: center; 
+    outline: 1px solid black;
+    transition: transform 0.1s ease, outline 0.2s ease;
+    position: relative; 
+ 
+}
+
+/* Add hover effect */
+.attribute-btn:hover {
+    transform: scale(1.1);
+    outline: 3px solid gray; 
+    z-index: 1; 
+    
+}
+
+/* Selected state */
+.attribute-btn.selected {
+    outline: 3px solid rgb(30, 220, 5);
+    background-color: rgb(255, 255, 255);
+
+    
+}
+
+/* Tooltip Text box */
+.attribute-btn:hover::after {
+    content: attr(data-tooltip); 
+    position: absolute;
+    top: calc(100% + 10px); 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black; 
+    color: white; 
+    font-size: 12px;
+    padding: 6px 12px; 
+    border-radius: 4px; 
+    white-space: nowrap; 
+    z-index: 10; 
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out;
+   
+}
+
+/* Tooltip Arrow */
+.attribute-btn:hover::before {
+    content: '';
+    position: absolute;
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px; 
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+    z-index: 10; 
+}
+
+
+
+/* Adjusted grid areas for the layout */
+.attributes-section,
+.summary-section,
+.feed-selection-section, /* Styling for feed selection section */
+.results-section,
+.image-gallery-section {
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.attributes-section {
+    grid-column: 1 / 2;
+}
+
+.summary-section {
+    grid-column: 1 / 2;
+}
+
+.feed-selection-section { 
+    grid-column: 1 / 2;
+}
+
+/* Feed selection dropdown styling */
+.feed-selection-section label {
+    font-weight: bold;
+}
+
+.feed-select {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.feed-select select {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #000;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Feed selection dropdown hover effect */
+.feed-select select:hover {
+    border-color: #333;
+    background-color: #e0e0e0;
+}
+
+/* Results and Image Gallery Layout */
+.results-section {
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+    max-height: 1380px;
+    overflow-y: auto;
+}
+
+.image-gallery-section {
+    grid-column: 2 / 3;
+    grid-row: 4 / 5;
+}
+
+/* Section titles */
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 700;
+    color: #000;
+}
+
+/* Button styling */
+.submit-button,
+.reset-button {
+    padding: 10px 20px;
+    border: 2px solid #000;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    text-decoration: none;
+  }
+
+
+.submit-button:hover {
+    background-color: #6cc8ec;
+}
+
+.submit-button {
+    background-color: #3fb2d8;
+  }
+
+.color-selection label {
+    font-weight: bold;
+}
+
+.reset-button:hover {
+    background-color: #fd5c5c93; 
+  }
+  
+  .reset-button {
+    background-color: #f05858;
+    font-weight: bold;
+    color:#000;
+  }
+
+/* Adjusted styles for the Results Section */
+.result-content {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #000;
+}
+
+.result-image {
+    max-width: 300px; 
+    width: 100%;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 5px;
+    border: 2px solid #000;
+}
+
+.result-text {
+    flex: 1;
+}
+
+.result-text p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+/* Image grid */
+.image-placeholder {
+    background-color: #e0e0e0;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    height: 200px;
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+/* Section Heading Styles */
+h3 {
+    font-size: 1.5em;
+    margin: 10px 0;
+    font-weight: 700;
+    position: relative;
+}
+
+/* Summary content styling */
+.summary-content {
+    display: grid;
+    gap: 10px; 
+    padding: 10px;
+}
+
+.summary-row {
+    display: grid;
+    grid-template-columns: 50px 1fr; 
+    gap: 15px; 
+    align-items: center;
+}
+
+.summary-row strong {
+    text-align: left;
+    white-space: nowrap; 
+}
+
+.summary-row .summary-value {
+    text-align: left; 
+    word-break: break-word; 
+}
+
+
+.hidden {
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 800px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+    .attributes-section,
+    .summary-section,
+    .feed-selection-section, 
+    .results-section,
+    .image-gallery-section {
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+
+
+    .nav-link {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .result-content {
+        flex-direction: column;
+    }
+
+    .result-image {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .results-section  {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px;
+    }
+
+    .preview-area {
+        flex-direction: column; 
+        gap: 10px; 
+    }
+
+    .preview-image {
+        max-height: 150px; 
+        max-width: 250px;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px; 
+    }
+}
+
+/* Footer Styles */
+footer {
+    border-top: 2px solid #000;
+    padding: 20px 0;
+    text-align: center;
+    font-weight: 500;
+    background-color: #ffffff;
+    width: 100%;
+    margin-top: auto; 
+  }
+
+
+/* Used for Color Buttons */
+.color-btn {
+    all: unset; 
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px; 
+    height: 35px; 
+    border-radius: 10px; 
+    margin: 5px; 
+    cursor: pointer;
+    background-color: black;
+    outline: 1px solid black; 
+    box-sizing: border-box; 
+    transition: transform 0.1s ease, outline 0.2s ease;
+}
+
+/* Hover effect for color buttons */
+.color-btn:hover {
+    transform: scale(1.1); 
+    outline: 3px solid gray; 
+}
+
+/* Selected state for color buttons */
+.color-btn.selected {
+    outline: 3px solid rgb(30, 220, 5); 
+}
+
+/* Tooltip Styles */
+.color-btn:hover::after {
+    content: attr(data-tooltip); 
+    position: absolute;
+    top: calc(100% + 10px); 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black; 
+    color: white; 
+    font-size: 12px;
+    padding: 5px 10px; 
+    border-radius: 4px; 
+    white-space: nowrap; 
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.1s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); 
+}
+
+/* Tooltip Arrow */
+.color-btn:hover::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: black transparent transparent transparent; 
+    z-index: 10;
+}
+
+/* Container for Color Buttons */
+.color-options {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0; 
+}
+/* Preview Area */
+.preview-area {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 20px; 
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-bottom: 2px solid #000;
+    width: 100%; 
+}
+
+/* Preview Image */
+.preview-image {
+    height: 350px; 
+    width: auto; 
+    max-width: 300px; 
+    object-fit: contain;
+    border-radius: 10px;
+    border: 2px solid #000;
+    display: block; 
+}
+
+/* Navigation Buttons for Images */
+.navigation-buttons-image {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.nav-button-image {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nav-button-image:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.nav-button-image:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+
+
+.result-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    aspect-ratio: 1 / 1; 
+    overflow: hidden; 
+}
+
+.result-item:hover {
+    transform: scale(1.05);
+}
+
+.result-item.active {
+    border: 3px solid rgba(30, 220, 5, 0.8); 
+    box-shadow: 0 0 10px rgba(30, 220, 5, 0.8);
+    transform: scale(1.05); 
+    z-index: 10; 
+}
+
+.result-image {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    border-radius: 5px;
+    border: 3px solid #000; 
+    display: block; 
+    
+}
+
+/* Hide grid details */
+.result-item .result-text {
+    display: none;
+}
+
+
+
+/* Adjusted grid areas for the layout */
+.results-section,
+.image-gallery-section {
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.hidden-preview-section {
+    display: none !important;
+}
+
+.validation-message {
+    color: #d9534f; 
+    font-size: 0.9rem;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #d9534f;
+    border-radius: 4px;
+    background-color: #f2dede; 
+    display: block;
+}
+
+
+
+.result-item.highlight {
+    transform: scale(1.05); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Info Section */
+.pagination-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #333;
+}
+.result-range {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+    display: flex;
+    gap: 10px;
+   
+}
+
+.pagination-link {
+    padding: 8px 12px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination-link:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.disabled-link {
+    padding: 8px 12px;
+    background-color: #ccc;
+    color: #666;
+    border-radius: 5px;
+    cursor: not-allowed;
+    font-weight: bold;
+}
+
+
+
+/* Pagination Container */
+.pagination-container {
+    margin-top: 30px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff; 
+    border-radius: 10px;
+   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+
+
+/* No Results Styling */
+.no-results-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+    width: 100%; 
+    background-color: #f9f9f9; 
+    border: none; 
+    text-align: center;
+    padding: 20px; 
+    margin: 0; 
+    grid-column: 1 / -1; 
+}
+
+.no-results-container p {
+    font-size: 16px; 
+    color: #333; 
+    margin: 10px 0; 
+}
+
+.no-results-container p:first-of-type {
+    font-weight: bold; 
+    font-size: 18px; 
+}
+
+/* Grid Container */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 15px; 
+    height: 740px;
+    padding: 10px;
+    background-color: #fff; 
+    border: 1px solid #ddd; 
+    border-radius: 10px;
+    overflow-y: auto; 
+}
+
+.preview-container {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: center; 
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin: 10px auto; 
+    width:95%; 
+    max-width: 900px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: 300px;
+}
+
+.preview-content {
+    display: flex;
+   
+    gap: 30px; 
+    align-items: flex-start; 
+    
+}
+
+.image-container {
+    display: flex;
+    margin-left: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 250px; 
+    height: 250px; 
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.preview-image {
+    width: 100%; 
+    height: auto; 
+}
+
+
+
+.preview-details p {
+    
+    margin: 5px 0;
+}
+
+.preview-details strong {
+    font-weight: 600; 
+}
+
+.preview-details a {
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.preview-details a:hover {
+    text-decoration: underline;
+}
+
+
+.preview-details {
+    margin-top: 50px;
+    font-size: 14px;
+    color: #333;
+    gap: 4px; 
+    line-height: 1.2; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.result-item-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    gap: 20px; 
+}
+
+.result-item-navigation p {
+    min-width: 150px; 
+    text-align: left; 
+    margin: 0;
+}
+
+.navigation-buttons-image {
+    display: flex;
+    gap: 10px; 
+}
+
+.nav-button-image {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nav-button-image:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.nav-button-image:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* General styling for summary content */
+.summary-content p {
+    margin: 5px 0;
+}
+
+/* Ensure only titles (inside <strong>) are bold */
+.summary-content p strong {
+    font-weight: bold;
+}
+
+/* Ensure only values (inside .summary-value) are not bold */
+.summary-content p .summary-value {
+    font-weight: normal;
+}
+

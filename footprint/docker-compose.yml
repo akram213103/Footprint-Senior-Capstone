@@ -1,0 +1,26 @@
+services:
+  redis-server:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  rq-worker:
+    build: .
+    depends_on:
+      - redis-server
+    environment:
+      - REDIS_URL=redis://redis-server:6379/0
+    volumes:
+      # Map AI Scripts directory
+      - "./home/static/AI_Scripts:/AI_Scripts"
+      # Map Identified_Person directory within AI_Scripts
+      - "./home/static/AI_Scripts/Identified_Person:/AI_Scripts/Identified_Person"
+      # Map the serviceAccountKey.json file
+      - "./Firebase/serviceAccountKey.json:/footprint/Firebase/serviceAccountKey.json"
+    working_dir: /AI_Scripts
+    command: rq worker --with-scheduler
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"

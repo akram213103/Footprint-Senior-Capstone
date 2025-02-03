@@ -1,0 +1,501 @@
+/* ================================
+   Admin Dashboard Styles
+================================ */
+
+:root {
+  --color-approved: #52e4298e; 
+  --color-pending: #f0f02882;  
+  --color-denied: #ff313187;  
+  --color-default: #d3d3d3;  
+}
+
+/* General reset for consistent styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Container Styles */
+.container {
+  width: 95%;
+  max-width: 1200px; 
+  margin: 0 auto;
+}
+
+/* Body Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #d3d3d3; 
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  min-height: 100vh;
+  margin: 0;
+}
+
+.scaled-wrapper {
+  width: 100%;
+  max-width: 1350px; /* Maximum width for the centered layout */
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Content Box - Centered White background box */
+.content-box {
+  background-color: #ffffff;
+  padding: 40px 30px 5px 30px; 
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  margin: 20px auto;
+  max-width: 1250px; 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+/* Main Content Styles */
+main {
+  padding: 20px 0;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-bottom: 20px; 
+}
+
+/* Filter and Search Styles */
+form {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input[type="text"],
+select {
+  padding: 8px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+.button {
+  padding: 10px 20px;
+  border: 2px solid #000;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+  text-decoration: none;
+}
+
+button:hover {
+  background-color: #3fb2d8;
+  
+}
+
+.search-button {
+  background-color: #3fb2d8;
+}
+
+.search-button:hover {
+  background-color: #6cc8ec;
+}
+
+.clear-filters-button:hover {
+  background-color: #fd5c5c6e; 
+}
+
+.clear-filters-button {
+  background-color: #f05858;
+  font-weight: bold;
+  color:#000;
+}
+
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+thead th {
+  background-color: #3fb2d8;
+  color: #000;
+  font-weight: bold;
+  padding: 10px;
+  border: 2px solid #000;
+}
+
+tbody td {
+  padding: 10px;
+  border: 2px solid #000;
+  text-align: center;
+  vertical-align: middle;
+}
+
+tbody td.account-created {
+  white-space: pre-line; 
+  text-align: center;
+}
+
+
+/* Account Status Column Style */
+.status-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  color: #000;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 100px; 
+  height: 33px;
+  text-align: center;
+}
+
+/* Action Button Alignment */
+.action-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.change-status {
+  padding: 5px 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.status-approved {
+  background-color: #51E429; 
+}
+
+.status-denied {
+  background-color: #FF3131; 
+}
+
+.status-pending {
+  background-color: #F0F028; 
+}
+
+.action-cell {
+
+  align-items: center;
+  justify-content: center;
+  padding: 12px 10px 30px 25px;
+
+}
+
+select[name="new_status"] {
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f02882; 
+  transition: background-color 0.3s;
+  width: 150px; 
+  height: 35px;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.218);
+}
+
+select.open {
+  background-image: url("{% static 'images/up_arrow.png' %}"); /* Still Needs work */
+}
+
+/* Pagination Box Styles */
+.pagination-box {
+  background-color: #ffffff;
+  border: 2px solid #4CAF50; 
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.pagination-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.pagination-box th, .pagination-box td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.pagination-controls {
+  display: inline-flex;
+  gap: 10px; 
+  margin-left: 5px; 
+  font-weight: bold;
+}
+
+.pagination-controls button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #a3e508; 
+  color: #000000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  
+}
+
+/* Buttom previous and Next buttom */
+.pagination-controls a {
+  padding: 5px 10px; 
+  text-decoration: none;
+  color: #000;
+  background-color: #3fb2d8; 
+  border: 2px solid #000; 
+  border-radius: 5px; 
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.pagination-container {
+  margin-top: 10px; 
+}
+
+.pagination-controls a:hover {
+  background-color: #6cc8ec;
+}
+
+.pagination-controls button:hover {
+  background-color: #45a049; 
+}
+
+/* Left-aligned pagination info under the table */
+.pagination-info-left {
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* Filter Form and Search Styles */
+form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+input[type="text"], select, button {
+  background-image: url("{% static 'images/down_arrow.png' %}"); /* Still Needs work */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding: 8px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  
+}
+
+
+
+/* Apply colors based on status */
+select[data-status="approved"] {
+  background-color: var(--color-approved);
+  color: #000000;
+  font-weight: bold;
+}
+
+select[data-status="pending"] {
+  background-color: var(--color-pending);
+  color: #000;
+  font-weight: bold;
+}
+
+select[data-status="denied"] {
+  background-color: var(--color-denied);
+  color: #000000;
+  font-weight: bold;
+}
+
+/* Menu styling for open dropdown */
+select option {
+  background-color: #fff; 
+  color: #000; 
+}
+
+/* Change background color*/
+select option:checked {
+  background-color: var(--color-default); 
+  color: #000;
+}
+
+select:hover, select:focus {
+  outline: none;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.522);
+}
+
+/* Footer Styles */
+footer {
+  border-top: 2px solid #000;
+  padding: 20px 0;
+  text-align: center;
+  font-weight: 500;
+  background-color: #ffffff;
+  width: 100%;
+  margin-top: auto; 
+}
+
+/* Container for title and message display */
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Success Message */
+.success-message-box {
+  display: none; 
+  background-color: #d4edda; 
+  color: #000000; 
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #c3e6cb;
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-left: 15px; 
+  white-space: nowrap; 
+}
+
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .container {
+    width: 100%; 
+    padding: 0 10px; 
+  }
+
+  .scaled-wrapper {
+    flex-direction: column; 
+    padding: 10px;
+  }
+
+  .content-box {
+    padding: 20px 15px; 
+  }
+
+  table {
+    font-size: 0.9em; 
+  }
+
+  .status-box {
+    width: auto; 
+    font-size: 0.8em; 
+  }
+
+  .pagination-box {
+    padding: 15px; 
+  }
+
+  .pagination-controls {
+    flex-wrap: wrap; 
+    justify-content: center; 
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px; 
+  }
+
+  .container {
+    width: 100%; 
+  }
+
+  .content-box {
+    padding: 15px; 
+    box-shadow: none; 
+  }
+
+  h2 {
+    font-size: 1.2em; 
+  }
+
+  form {
+    flex-direction: column; 
+    gap: 10px; 
+  }
+
+  table {
+    font-size: 0.8em; 
+  }
+
+  table thead th, table tbody td {
+    padding: 8px; 
+  }
+
+  .status-box {
+    padding: 5px; 
+    font-size: 0.75em; 
+  }
+
+  .pagination-controls a, .pagination-controls button {
+    padding: 5px 8px; 
+    font-size: 0.8em; 
+  }
+}
+
+@media (max-width: 480px) {
+  .content-box {
+    padding: 10px; 
+  }
+
+  .pagination-box {
+    padding: 10px; 
+  }
+
+  form {
+    gap: 5px; 
+  }
+
+  input[type="text"], select, button {
+    font-size: 0.8em; 
+    padding: 6px; 
+  }
+
+  .status-box {
+    font-size: 0.7em; 
+  }
+
+  table {
+    font-size: 0.75em; 
+  }
+
+  .pagination-info-left {
+    font-size: 0.75em; 
+  }
+}

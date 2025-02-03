@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <script src="{% static 'js/header.js' %}" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-and-title">
+                <a href="{% url 'homepage' %}" class="logo-link">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo-image">
+                </a>
+                <h1 class="site-title">Footprint</h1>
+            </div>
+
+            <!-- Burger Menu Button -->
+            <button class="burger-menu" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav">
+                {% if request.session.uid %}
+                    {% if request.session.role == 'user' %}
+                        <!-- Navigation links for regular users -->
+                        <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                        <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                        <a href="{% url 'upload' %}" class="nav-link">Upload</a>
+                        <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                        <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                    
+                    {% elif request.session.role == 'admin' %}
+                        <!-- Navigation links for admins -->
+                        <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                        <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                        <a href="{% url 'upload' %}" class="nav-link">Upload</a>
+                        <a href="{% url 'admin_dashboard' %}" class="nav-link">Admin</a>
+                        <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                        <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                    {% endif %}
+                {% else %}
+                    <!-- Navigation links for non-logged-in users -->
+                    <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                    <a href="{% url 'login' %}" class="nav-link">Login</a>
+                    <a href="{% url 'signup' %}" class="nav-link">Sign Up</a>
+                {% endif %}
+                
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout container">
+        <form method="POST" action="{% url 'search_attributes1' %}">
+            {% csrf_token %}
+            <input type="hidden" name="top_attribute" id="top-attribute-input">
+            <input type="hidden" name="top_color" id="top-color-input">
+            <input type="hidden" name="middle_attribute" id="middle-attribute-input">
+            <input type="hidden" name="middle_color" id="middle-color-input">
+            <input type="hidden" name="bottom_attribute" id="bottom-attribute-input">
+            <input type="hidden" name="bottom_color" id="bottom-color-input">
+        
+            <!-- Attributes Section -->
+            <aside class="attributes-section">
+                <div class="table-header">
+                    Attributes
+                </div>
+                <!-- Top Attributes -->
+                <div class="attribute-group">
+                    <div class="section-title">
+                        TOP
+                    </div>
+                    <div class="top-attributes">
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.top.attribute == 'short_hair' %}selected{% endif %}"
+                            data-attribute="short_hair"
+                            data-category="top"
+                            data-tooltip="Short Hair"
+                            style="background-image: url('{% static 'images/short_hair_UI.png' %}'); border: 3px solid black;"
+                        ></button>
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.top.attribute == 'medium_hair' %}selected{% endif %}"
+                            data-attribute="medium_hair"
+                            data-category="top"  
+                            data-tooltip="Medium Hair"
+                            style="background-image: url('{% static 'images/medium_hair_UI.png' %}'); border: 3px solid black;"
+                        ></button>
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.top.attribute == 'long_hair' %}selected{% endif %}"
+                            data-attribute="long_hair"
+                            data-category="top"
+                            data-tooltip="Long Hair"
+                            style="background-image: url('{% static 'images/long_hair_UI.png' %}'); border: 3px solid black;"
+                        ></button>
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.top.attribute == 'no_hair' %}selected{% endif %}"
+                            data-attribute="no_hair"
+                            data-category="top"
+                            data-tooltip="No Hair"
+                            style="background-image: url('{% static 'images/no_hair_UI.png' %}'); border: 3px solid black;"
+                        ></button>
+                    </div>
+                
+                    <!-- Top Attribute Color  -->
+                    <div class="color-selection">
+                        <div class="color-options" data-category="top">
+                            <button type="button" class="color-btn {% if selections.top.color == 'black' %}selected{% endif %}" data-color="black" style="background-color: black; border: 3px solid black;" data-tooltip="Black"></button>
+                            <button type="button" class="color-btn {% if selections.top.color == 'brown' %}selected{% endif %}" data-color="brown" style="background-color: brown; border: 3px solid black;" data-tooltip="Brown"></button>
+                            <button type="button" class="color-btn {% if selections.top.color == 'red' %}selected{% endif %}" data-color="red" style="background-color: red; border: 3px solid black;" data-tooltip="Red"></button>
+                            <button type="button" class="color-btn {% if selections.top.color == 'gray' %}selected{% endif %}" data-color="gray" style="background-color: gray; border: 3px solid black;" data-tooltip="Gray"></button>
+                            <button type="button" class="color-btn {% if selections.top.color == 'blonde' %}selected{% endif %}" data-color="blonde" style="background-color: yellow; border: 3px solid black;" data-tooltip="Blonde"></button>
+                            <button type="button" class="color-btn {% if selections.top.color == 'unnatural' %}selected{% endif %}" data-color="unnatural" style="background: linear-gradient(45deg, purple, cyan);border: 3px solid black;" data-tooltip="Unnatural"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Attributes -->
+                <div class="attribute-group">
+                    <div class="section-title">
+                        MIDDLE
+                    </div>
+                    <div class="middle-attributes">
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.middle.attribute == 'short_shirt' %}selected{% endif %}"
+                            data-attribute="short_shirt"
+                            data-category="middle"
+                            data-tooltip="Short Sleeved"
+                            style="background-image: url('{% static "images/short_shirt_UI.png" %}'); border: 3px solid black;"
+                        ></button>
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.middle.attribute == 'long_shirt' %}selected{% endif %}"
+                            data-attribute="long_shirt"
+                            data-category="middle"
+                            data-tooltip="Long Sleeved"
+                            style="background-image: url('{% static "images/long_shirt_UI.png" %}'); border: 3px solid black;"
+                        ></button>
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.middle.attribute == 'sleeveless_shirt' %}selected{% endif %}"
+                            data-attribute="sleeveless_shirt"
+                            data-category="middle"
+                            data-tooltip="Sleeveless Shirt"
+                            style="background-image: url('{% static "images/sleeveless_shirt_UI.png" %}'); border: 3px solid black;"
+                        ></button>
+                        <button
+                            type="button"
+                            class="attribute-btn {% if selections.middle.attribute == 'no_shirt' %}selected{% endif %}"
+                            data-attribute="no_shirt"
+                            data-category="middle"
+                            data-tooltip="No Shirt"
+                            style="background-image: url('{% static "images/no_shirt_UI.png" %}'); border: 3px solid black;"
+                        ></button>
+                    </div>
+                    <!-- Middle Attriubte Color -->
+                    <div class="color-selection">
+            
+                        <div class="color-options" data-category="middle">
+                            <button type="button" class="color-btn {% if selections.middle.color == 'black' %}selected{% endif %}" data-color="black" style="background-color: black; border: 3px solid black;" data-tooltip = "Black"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'brown' %}selected{% endif %}" data-color="brown" style="background-color: brown; border: 3px solid black;" data-tooltip = "Brown"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'red' %}selected{% endif %}" data-color="red" style="background-color: red; border: 3px solid black;" data-tooltip = "Red"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'gray' %}selected{% endif %}" data-color="gray" style="background-color: gray; border: 3px solid black;" data-tooltip = "Gray"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'green' %}selected{% endif %}" data-color="green" style="background-color: green; border: 3px solid black;" data-tooltip = "Green"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'blue' %}selected{% endif %}" data-color="blue" style="background-color: blue; border: 3px solid black;" data-tooltip = "Blue"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'white' %}selected{% endif %}" data-color="white" style="background-color: white; border: 3px solid black;" data-tooltip = "White"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'orange' %}selected{% endif %}" data-color="orange" style="background-color: orange; border: 3px solid black;" data-tooltip = "Orange"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'yellow' %}selected{% endif %}" data-color="yellow" style="background-color: yellow; border: 3px solid black;" data-tooltip = "Yellow"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'purple' %}selected{% endif %}" data-color="purple" style="background-color: purple; border: 3px solid black;" data-tooltip = "Purple"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'pink' %}selected{% endif %}" data-color="pink" style="background-color: pink; border: 3px solid black;"  data-tooltip = "Pink"></button>
+                            <button type="button" class="color-btn {% if selections.middle.color == 'beige' %}selected{% endif %}" data-color="beige" style="background-color: rgba(238, 186, 151, 0.998); border: 3px solid black;" data-tooltip = "Beige"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Attributes -->
+                <div class="attribute-group">
+                    <div class="section-title">
+                        BOTTOM
+                    </div>
+                        <div class="bottom-attributes">
+                            <button
+                                type="button"
+                                class="attribute-btn {% if selections.bottom.attribute == 'short_pants' %}selected{% endif %}"
+                                data-attribute="short_pants"
+                                data-category="bottom"
+                                data-tooltip="Shorts"
+                                style="background-image: url('{% static "images/short_UI.png" %}'); border: 3px solid black;"
+                            ></button>
+                            <button
+                                type="button"
+                                class="attribute-btn {% if selections.bottom.attribute == 'long_pants' %}selected{% endif %}"
+                                data-attribute="long_pants"
+                                data-category="bottom"
+                                data-tooltip="Pants"
+                                style="background-image: url('{% static "images/pants_UI.png" %}'); border: 3px solid black;"
+                            ></button>
+                            <button
+                                type="button"
+                                class="attribute-btn {% if selections.bottom.attribute == 'skirt' %}selected{% endif %}"
+                                data-attribute="skirt"
+                                data-category="bottom"
+                                data-tooltip="Skirt" 
+                                style="background-image: url('{% static "images/skirt_UI.png" %}'); border: 3px solid black;"
+                            ></button>
+                        </div>
+                    <!-- Bottom Attriubte Color -->
+                    <div class="color-selection">
+     
+                        <div class="color-options" data-category="bottom">
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'black' %}selected{% endif %}" data-color="black" style="background-color: black;  border: 3px solid black;" data-tooltip = "Black"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'brown' %}selected{% endif %}" data-color="brown" style="background-color: brown;  border: 3px solid black;" data-tooltip = "Brown"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'red' %}selected{% endif %}" data-color="red" style="background-color: red; border: 3px solid black;" data-tooltip = "Red"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'gray' %}selected{% endif %}" data-color="gray" style="background-color: gray; border: 3px solid black;" data-tooltip = "Gray"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'green' %}selected{% endif %}" data-color="green" style="background-color: green; border: 3px solid black;" data-tooltip = "Green"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'blue' %}selected{% endif %}" data-color="blue" style="background-color: blue; border: 3px solid black;" data-tooltip = "Blue"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'white' %}selected{% endif %}" data-color="white" style="background-color: white; border: 3px solid black;" data-tooltip = "White"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'orange' %}selected{% endif %}" data-color="orange" style="background-color: orange; border: 3px solid black;" data-tooltip = "Orange"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'yellow' %}selected{% endif %}" data-color="yellow" style="background-color: yellow; border: 3px solid black;" data-tooltip = "Yellow"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'purple' %}selected{% endif %}" data-color="purple" style="background-color: purple; border: 3px solid black;" data-tooltip = "Purple"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'pink' %}selected{% endif %}" data-color="pink" style="background-color: pink; border: 3px solid black;"  data-tooltip = "Pink"></button>
+                            <button type="button" class="color-btn {% if selections.bottom.color == 'beige' %}selected{% endif %}" data-color="beige" style="background-color: rgba(238, 186, 151, 0.998);  border: 3px solid black;" data-tooltip = "Beige"></button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- video Selection Section -->
+            <section class="feed-selection-section">
+                <div class="table-header">
+                    Video Selection
+                </div>
+                <div class="feed-select">
+                    <label for="feed_name">Video:</label>
+                    <select id="feed_name" name="feed_name">
+                        <option value="">Select Video</option>
+                        {% for feed in feeds %}
+                            <option value="{{ feed }}"{% if selections.feed_name == feed %}selected{% endif %}>{{ feed }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </section>
+
+            <!-- Summary Section -->
+            <section class="summary-section">
+                <div class="table-header">
+                    Summary
+                </div>
+                <div class="summary-content">
+                    <div class="summary-row" id="summary-top">
+                        <strong>Top:</strong>
+                        <span class="summary-value">None Selected</span>
+                    </div>
+                    <div class="summary-row" id="summary-middle">
+                        <strong>Middle:</strong>
+                        <span class="summary-value">None Selected</span>
+                    </div>
+                    <div class="summary-row" id="summary-bottom">
+                        <strong>Bottom:</strong>
+                        <span class="summary-value">None Selected</span>
+                    </div>
+                    <div class="summary-row" id="summary-feed_name">
+                        <strong>Feed:</strong>
+                        <span class="summary-value">None Selected</span>
+                    </div>
+                    <button type="reset" class="reset-button">Reset</button>
+                    <button type="submit" class="submit-button">Submit</button>
+                </div>
+                
+                <div class="error-section">
+                    <div id="error-container" class="hidden">
+                        <h3>Validation Errors</h3>
+                        <ul id="error-messages"></ul>
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <section class="results-section">
+            <div class="table-header">
+                Results
+            </div>
+        
+            <div class="results-section">
+                <!-- Preview Container -->
+                <div class="preview-container">
+                    <div id="preview-area" data-start-index="{{ page_obj.start_index|add:'-1' }}">
+                        <div class="preview-content">
+                            <!-- Image Section -->
+                            <div class="image-container">
+                                <img id="preview-image" src="" alt="Preview" class="preview-image">
+                            </div>
+                
+                            <!-- Details Section -->
+                            <div id="preview-details" class="preview-details">
+                                <p><strong>Top:</strong> <span id="preview-top"></span></p>
+                                <p><strong>Middle:</strong> <span id="preview-middle"></span></p>
+                                <p><strong>Bottom:</strong> <span id="preview-bottom"></span></p>
+                                <p><strong>Time Detected:</strong> <span id="preview-time"></span></p>
+                                <p><strong>Detection Time Link:</strong>
+                                    <a id="preview-link" href="#" target="_blank">View</a>
+                                </p>
+                                <div class="result-item-navigation">
+                                    <p><strong>Result Item:</strong> <span id="result-item-number"></span></p>
+                                    <div class="navigation-buttons-image">
+                                        <button id="prev-item" class="nav-button-image">Previous Image</button>
+                                        <button id="next-item" class="nav-button-image">Next Image</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Grid Container -->
+                <div id="results-content" class="grid-container">
+                    {% if results %}
+                        {% for result in results %}
+                            <div class="result-item" 
+                                 data-image="{{ result.photo }}" 
+                                 data-top="{{ result.top_type }}, {{ result.top_color }}" 
+                                 data-middle="{{ result.middle_type }}, {{ result.middle_color }}" 
+                                 data-bottom="{{ result.bottom_type }}, {{ result.bottom_color }}" 
+                                 data-time="{{ result.detection_time }}" 
+                                 data-link="{{ result.detection_time_link }}">
+                                <img src="{{ result.photo }}" alt="Result Image" class="result-image">
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-results-container">
+                            <p><strong>No results found.</strong></p>
+                            <p>Try adjusting the search filters.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <!-- Page Info -->
+                <div class="pagination-info">
+                    <span class="page-details">
+                        Page {% if num_pages > 0 %}{{ page_number }}{% else %}0{% endif %} of {% if num_pages > 0 %}{{ num_pages }}{% else %}0{% endif %}
+                    </span>
+                    <span class="result-range">
+                        Displaying results {% if page_obj.start_index %}{{ page_obj.start_index }}{% else %}0{% endif %}–{% if page_obj.end_index %}{{ page_obj.end_index }}{% else %}0{% endif %} out of a total of {% if page_obj.paginator.count %}{{ page_obj.paginator.count }}{% else %}0{% endif %}
+                    </span>
+                </div>
+        
+                <!-- Pagination Controls -->
+                <div class="pagination-controls">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}&top_attribute={{ selections.top.attribute }}&top_color={{ selections.top.color }}&middle_attribute={{ selections.middle.attribute }}&middle_color={{ selections.middle.color }}&bottom_attribute={{ selections.bottom.attribute }}&bottom_color={{ selections.bottom.color }}&feed_name={{ selections.feed_name }}" class="pagination-link">
+                            Previous Page
+                        </a>
+                    {% else %}
+                        <span class="disabled-link">Previous Page</span>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}&top_attribute={{ selections.top.attribute }}&top_color={{ selections.top.color }}&middle_attribute={{ selections.middle.attribute }}&middle_color={{ selections.middle.color }}&bottom_attribute={{ selections.bottom.attribute }}&bottom_color={{ selections.bottom.color }}&feed_name={{ selections.feed_name }}" class="pagination-link">
+                            Next Page
+                        </a>
+                    {% else %}
+                        <span class="disabled-link">Next Page</span>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        
+    </div>
+
+    <footer>
+        <p>2024 FOOTPRINT</p>
+    </footer>
+
+    <!-- Script to update summary dynamically, handle submit, and enforce validation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const attributeButtons = document.querySelectorAll('.attribute-btn');
+            const colorButtons = document.querySelectorAll('.color-btn');
+            const feedSelect = document.getElementById('feed_name');
+            const resetButton = document.querySelector('.reset-button');
+            const summaryTop = document.getElementById('summary-top');
+            const summaryMiddle = document.getElementById('summary-middle');
+            const summaryBottom = document.getElementById('summary-bottom');
+            const summaryFeedName = document.getElementById('summary-feed_name');
+
+            // Mapping raw values to readable names
+            const attributeNames = {
+                short_hair: 'Short Hair',
+                medium_hair: 'Medium Hair',
+                long_hair: 'Long Hair',
+                no_hair: 'No Hair',
+                short_shirt: 'Short Sleeved',
+                long_shirt: 'Long Sleeved',
+                sleeveless_shirt: 'Sleeveless Shirt',
+                no_shirt: 'No Shirt',
+                short_pants: 'Shorts',
+                long_pants: 'Pants',
+                skirt: 'Skirt',
+                black: 'Black',
+                brown: 'Brown',
+                red: 'Red',
+                gray: 'Gray',
+                blonde: 'Blonde',
+                unnatural: 'Unnatural',
+                green: 'Green',
+                blue: 'Blue',
+                white: 'White',
+                orange: 'Orange',
+                yellow: 'Yellow',
+                purple: 'Purple',
+                pink: 'Pink',
+                beige: 'Beige',
+            };
+
+            // Initial selections object populated from Django template
+            let selections = {
+                top: {
+                    attribute: "{{ selections.top.attribute|default:'' }}",
+                    color: "{{ selections.top.color|default:'' }}"
+                },
+                middle: {
+                    attribute: "{{ selections.middle.attribute|default:'' }}",
+                    color: "{{ selections.middle.color|default:'' }}"
+                },
+                bottom: {
+                    attribute: "{{ selections.bottom.attribute|default:'' }}",
+                    color: "{{ selections.bottom.color|default:'' }}"
+                },
+                feed_name: "{{ selections.feed_name|default:'' }}"
+            };
+
+            function formatSelection(attribute, color) {
+                const formattedAttribute = attributeNames[attribute] || 'None Selected';
+                const formattedColor = attributeNames[color] || 'None Selected';
+                return `${formattedAttribute}, ${formattedColor}`;
+            }
+
+            function updateSummary(category) {
+                const rawAttribute = selections[category].attribute || 'None Selected';
+                const rawColor = selections[category].color || 'None Selected';
+
+                //retreive all colors
+                const colorButtons = document.querySelectorAll(`.color-options[data-category="${category}"] .color-btn`);
+
+                // Check for special cases"No Hair" or "No Shirt" 
+                if (rawAttribute === 'no_hair' || rawAttribute === 'no_shirt') {
+                    // Disable and gray out buttons
+                    colorButtons.forEach(button => {
+                        button.disabled = true;
+                        button.style.opacity = 0.4; // Gray out button 40%
+                    });
+
+                    // Update the summary tab for "No Hair, No Color" or "No Shirt, No Color" if selected
+                    const formattedAttribute = attributeNames[rawAttribute] || rawAttribute;
+                    const summaryValueElement = document.querySelector(`#summary-${category} .summary-value`);
+                    summaryValueElement.textContent = `${formattedAttribute}, No Color`;
+
+                    // Update Hidden fields
+                    document.getElementById(`${category}-attribute-input`).value = rawAttribute || '';
+                    document.getElementById(`${category}-color-input`).value = 'No Color';
+                    return;
+                }
+
+                // Restore and enable buttons
+                colorButtons.forEach(button => {
+                    button.disabled = false;
+                    button.style.opacity = 1; // Restore original selection 
+                });
+
+                const formattedAttribute = attributeNames[rawAttribute] || rawAttribute;
+                const formattedColor = attributeNames[rawColor] || rawColor;
+
+                const summaryValueElement = document.querySelector(`#summary-${category} .summary-value`);
+                summaryValueElement.textContent = `${formattedAttribute}, ${formattedColor}`;
+
+                document.getElementById(`${category}-attribute-input`).value = rawAttribute || '';
+                document.getElementById(`${category}-color-input`).value = rawColor || '';
+            }
+
+
+            function resetSelections() {
+                selections = {
+                    top: { attribute: null, color: null },
+                    middle: { attribute: null, color: null },
+                    bottom: { attribute: null, color: null },
+                    feed_name: null,
+                };
+
+                ['top', 'middle', 'bottom'].forEach(category => {
+                    document.querySelectorAll(`.attribute-btn[data-category="${category}"]`).forEach(btn => btn.classList.remove('selected'));
+                    document.querySelectorAll(`.color-options[data-category="${category}"] .color-btn`).forEach(btn => btn.classList.remove('selected'));
+                    updateSummary(category);
+                });
+
+                if (feedSelect) feedSelect.value = '';
+                
+                // Update the summary for feed_name with proper structure
+                const summaryFeedName = document.getElementById('summary-feed_name');
+                summaryFeedName.innerHTML = `<strong>Feed:</strong> <span class="summary-value">None Selected</span>`;
+            }
+
+
+            function initializeSummary() {
+                ['top', 'middle', 'bottom'].forEach(category => {
+                    // Restore selected attribute button
+                    if (selections[category].attribute) {
+                        const button = document.querySelector(`.attribute-btn[data-category="${category}"][data-attribute="${selections[category].attribute}"]`);
+                        if (button) {
+                            button.classList.add('selected');
+                        }
+                    }
+
+                    // Restore selected color button
+                    if (selections[category].color) {
+                        const button = document.querySelector(`.color-btn[data-category="${category}"][data-color="${selections[category].color}"]`);
+                        if (button) {
+                            button.classList.add('selected');
+                        }
+                    }
+
+                    // Update the summary
+                    updateSummary(category);
+                });
+
+                // Restore feed selection
+                if (selections.feed_name) {
+                    feedSelect.value = selections.feed_name;
+                }
+                const feedValueElement = document.querySelector('#summary-feed_name .summary-value');
+                feedValueElement.textContent = selections.feed_name || 'None Selected';
+
+            }
+
+            attributeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const category = this.getAttribute('data-category');
+                    const attribute = this.getAttribute('data-attribute');
+
+                    // Update selections
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        selections[category].attribute = null;
+                    } else {
+                        document.querySelectorAll(`.attribute-btn[data-category="${category}"]`).forEach(btn => btn.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selections[category].attribute = attribute;
+                    }
+
+                    // Check for special cases"No Hair" or "No Shirt" 
+                    const colorButtons = document.querySelectorAll(`.color-options[data-category="${category}"] .color-btn`);
+                    if (attribute === 'no_hair' || attribute === 'no_shirt') {
+                        // Disable and gray out color buttons
+                        colorButtons.forEach(button => {
+                            button.disabled = true;
+                            button.style.opacity = 0.4; // Gray out at 40%
+                            button.classList.remove('selected'); // Remove "selected" glow
+                        });
+                        selections[category].color = 'No Color'; // Force "No Color" result
+                    } else {
+                        // Enable and restore color buttons
+                        colorButtons.forEach(button => {
+                            button.disabled = false;
+                            button.style.opacity = 1; // Restore original style
+                        });
+
+                        // dealing with edge case from selectiong from No Color to another selected attriubte to update selecred value
+                        if (selections[category].color === 'No Color') {
+                            selections[category].color = null;
+                            document.querySelectorAll(`.color-options[data-category="${category}"] .color-btn`).forEach(btn => btn.classList.remove('selected'));
+                        }
+                    }
+
+                    // Update Summary
+                    updateSummary(category);
+                });
+            });
+
+            colorButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const category = this.parentElement.getAttribute('data-category');
+                    const color = this.getAttribute('data-color');
+
+                    // Update selections
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        selections[category].color = null;
+                    } else {
+                        document.querySelectorAll(`.color-options[data-category="${category}"] .color-btn`).forEach(btn => btn.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selections[category].color = color;
+                    }
+
+                    updateSummary(category);
+                });
+            });
+
+            if (feedSelect) {
+                    feedSelect.addEventListener('change', function () {
+                        const summaryFeedName = document.getElementById('summary-feed_name');
+                        const feedValue = this.value || 'None Selected';
+
+                        // Update the content with proper structure
+                        summaryFeedName.innerHTML = `<strong>Feed:</strong> <span class="summary-value">${feedValue}</span>`;
+                    });
+            }
+
+            if (resetButton) {
+                resetButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    resetSelections();
+                });
+            }
+
+            initializeSummary();
+
+            // Error handling and validation during form submission
+            document.querySelector('form').addEventListener('submit', function (event) {
+                let valid = true;
+                let errorMessage = '';
+
+                ['top', 'middle', 'bottom'].forEach(category => {
+                    const attribute = selections[category].attribute;
+                    const color = selections[category].color;
+
+                    // Validation: Attribute must be selected
+                    if (!attribute) {
+                        valid = false;
+                        errorMessage += `Please select a ${category} attribute.\n`;
+                    }
+
+                    // Validation: Color must be selected unless "No Hair" or "No Shirt" is chosen
+                    if ((attribute !== 'no_hair' && attribute !== 'no_shirt') && !color) {
+                        valid = false;
+                        errorMessage += `Please select a ${category} color.\n`;
+                    }
+                });
+
+                // Validate feed selection
+                const feedName = document.getElementById('feed_name').value;
+                if (!feedName) {
+                    valid = false;
+                    errorMessage += 'Please select a video feed.\n';
+                }
+
+                if (!valid) {
+                    event.preventDefault();
+                    alert(errorMessage); // Show validation errors
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const previewArea = document.getElementById('preview-area');
+            const previewImage = document.getElementById('preview-image');
+            const previewPlaceholder = document.querySelector('.preview-placeholder');
+            const previewDetails = document.getElementById('preview-details');
+            const previewTop = document.getElementById('preview-top');
+            const previewMiddle = document.getElementById('preview-middle');
+            const previewBottom = document.getElementById('preview-bottom');
+            const previewTime = document.getElementById('preview-time');
+            const previewLink = document.getElementById('preview-link');
+            const resultItemNumber = document.getElementById('result-item-number');
+            const resultItems = Array.from(document.querySelectorAll('.result-item'));
+            const prevButton = document.getElementById('prev-item');
+            const nextButton = document.getElementById('next-item');
+
+            // starting index of the current page
+            const currentPageStartIndex = parseInt(previewArea.getAttribute('data-start-index') || "0", 10);
+
+            // Initialize the current index
+            let currentIndex = 0;
+
+            // Function to toggle preview visibility based on results
+            function togglePreviewVisibility() {
+                if (resultItems.length === 0) {
+                    previewArea.classList.add('hidden-preview-section'); // Hide preview if no results
+                } else {
+                    previewArea.classList.remove('hidden-preview-section'); // Show preview if results exist
+                }
+            }
+
+            // Function to update the preview area with details
+            function updatePreview(index) {
+                const item = resultItems[index];
+                if (!item) return;
+
+                const imageUrl = item.getAttribute('data-image');
+                const topDetails = item.getAttribute('data-top');
+                const middleDetails = item.getAttribute('data-middle');
+                const bottomDetails = item.getAttribute('data-bottom');
+                const detectionTime = item.getAttribute('data-time');
+                const detectionLink = item.getAttribute('data-link');
+
+                // Remove 'active' class from all items
+                resultItems.forEach(i => i.classList.remove('active'));
+
+                // Add 'active' class to the clicked item
+                item.classList.add('active');
+
+                // Update the preview image
+                if (imageUrl) {
+                    previewImage.src = imageUrl;
+                    previewImage.classList.remove('hidden');
+                    previewPlaceholder?.classList.add('hidden');
+                }
+
+                // Update the preview details
+                previewTop.textContent = topDetails || 'N/A';
+                previewMiddle.textContent = middleDetails || 'N/A';
+                previewBottom.textContent = bottomDetails || 'N/A';
+                previewTime.textContent = detectionTime || 'N/A';
+                previewLink.href = detectionLink || '#';
+
+                // Calculate the total result index
+                const globalIndex = currentPageStartIndex + index;
+                resultItemNumber.textContent = globalIndex + 1; // Display index starting from 1
+
+                // Show the preview details
+                previewDetails.classList.remove('hidden');
+            }
+
+            // handle "Previous" button click
+            prevButton.addEventListener('click', function () {
+                if (currentIndex === 0) {
+                    currentIndex = resultItems.length - 1; // Loop to the last item in list
+                } else {
+                    currentIndex--;
+                }
+                updatePreview(currentIndex);
+            });
+
+            //  handle "Next" button click
+            nextButton.addEventListener('click', function () {
+                if (currentIndex === resultItems.length - 1) {
+                    currentIndex = 0; // Loop to the first item in list
+                } else {
+                    currentIndex++;
+                }
+                updatePreview(currentIndex);
+            });
+
+            //toggle to set the correct state
+            togglePreviewVisibility();
+
+            // Set the first item as the default preview
+            if (resultItems.length > 0) {
+                updatePreview(currentIndex); // Update with the first item
+            }
+
+            // Add click event listeners to all result items
+            resultItems.forEach((item, index) => {
+                item.addEventListener('click', function () {
+                    currentIndex = index; // Update the current index
+                    updatePreview(currentIndex);
+
+                    // Highlight the gallery item
+                    resultItems.forEach(el => el.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+        });
+    </script>    
+</body>
+</html>

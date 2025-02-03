@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/change_password.css' %}">
+    <link rel="stylesheet" href="{% static 'css/delete_email.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <script src="{% static 'js/header.js' %}" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-and-title">
+                <a href="{% url 'homepage' %}" class="logo-link">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo-image">
+                </a>
+                <h1 class="site-title">Footprint</h1>
+            </div>
+
+            <!-- Burger Menu Button -->
+            <button class="burger-menu" aria-label="Toggle Navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav">
+                {% if request.session.uid %}
+                    {% if request.session.role == 'user' %}
+                        <!-- Navigation links for regular users -->
+                        <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                        <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                        <a href="{% url 'upload' %}" class="nav-link">Upload</a>
+                        <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                        <a href="{% url 'logout' %}" class="nav-link">Log out</a>
+                    
+                    {% elif request.session.role == 'admin' %}
+                        <!-- Navigation links for admins -->
+                        <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                        <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                        <a href="{% url 'upload' %}" class="nav-link">Upload</a>
+                        <a href="{% url 'admin_dashboard' %}" class="nav-link">Admin</a>
+                        <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                        <a href="{% url 'logout' %}" class="nav-link">Log out</a>
+                    {% endif %}
+                {% else %}
+                    <!-- Navigation links for non-logged-in users -->
+                    <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                    <a href="{% url 'login' %}" class="nav-link">Log in</a>
+                    <a href="{% url 'signup' %}" class="nav-link">Sign Up</a>
+                {% endif %}
+                
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Display User Information -->
+        <div class="profile-container">
+                <div class="profile">
+                    <div class="infoTypeName">
+                        <p class="infoTypeDisplay" id="firstNameDisplay"><strong>{{ full_name }}</strong></p>
+                        <p class="infoDisplay" id="emailDisplay">{{ email }}</p>
+                    </div>
+
+                    <div class="other"> 
+                        <div class="infoTypeOther">
+                            <p class="infoTypeDisplay"><strong>Department</strong></p>
+                            <p class="infoDisplay" id="departmentDisplay">{{ department_name }}</p>
+                        </div>
+    
+                        <div class="infoTypeOther">
+                            <p class="infoTypeDisplay"><strong>Role</strong></p>
+                            <p class="infoDisplay" id="emailDisplay">{{ role }}</p>
+                        </div>
+
+                        <img src="{% static 'images/logo.png' %}" id="logoid" alt="Logo" class="logo-image">
+                    </div>
+                    
+                </div>
+
+                <!-- Button Container -->
+                <div class="button-container">
+                    <!-- Change Password Button -->
+                    <button id="changePasswordButton" class="button">Change Password</button>
+                
+                    <!-- Delete Account Button -->
+                    <button id="deleteEmailButton" class="button">Delete Account</button>
+                </div> 
+            </div> 
+        </div>
+    </main>
+
+    <!-- Floating Window for Changing Password -->
+    <div id="changePasswordModal" class="modal {% if keep_modal_open %}open{% endif %}">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+
+            <div class="center-element">
+                <h2>Change Password</h2>   
+            </div>
+            
+            <div id="change_password_form">
+                <form method="post" action="{% url 'change_password' %}">
+                    {% csrf_token %}
+                    <div class="infoType">
+                        <label for="current_password">Current Password</label><br>
+                        <div class="password-container">
+                            <input type="password" id="current_password" name="current_password" required autocomplete="off" spellcheck="false">
+                            {% load static %}
+                            <img src="{% static 'images/eye_hide.svg' %}" id="current-toggle-password" class="toggle-text" data-eye-show="{% static 'images/eye.svg' %}" data-eye-hide="{% static 'images/eye_hide.svg' %}">
+                        </div>
+                    </div>
+                    
+                    <div class="infoType">
+                        <label for="new_password">New Password</label><br>
+                        <div class="password-container">
+                            <input type="password" id="new_password" name="new_password" required autocomplete="off" spellcheck="false">
+                            {% load static %}
+                            <img src="{% static 'images/eye_hide.svg' %}" id="new-toggle-password" class="toggle-text" data-eye-show="{% static 'images/eye.svg' %}" data-eye-hide="{% static 'images/eye_hide.svg' %}">
+                        </div>
+
+                        <!-- Password Requirements Section -->
+                        <ul class="password-requirements">
+                            <li id="length" class="requirement">
+                                <i class="x-mark"></i> At least 8 characters
+                            </li>
+                            <li id="uppercase" class="requirement">
+                                <i class="x-mark"></i> At least one uppercase letter
+                            </li>
+                            <li id="lowercase" class="requirement">
+                                <i class="x-mark"></i> At least one lowercase letter
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="infoType">
+                        <label for="retype_password">Retype New Password</label><br>
+                        <div class="password-container">
+                            <input type="password" id="retype_password" name="retype_password" required>
+                            {% load static %}
+                            <img src="{% static 'images/eye_hide.svg' %}" id="retype-toggle-password" class="toggle-text" data-eye-show="{% static 'images/eye.svg' %}" data-eye-hide="{% static 'images/eye_hide.svg' %}">
+                        </div>
+                    </div>
+                    
+                    <p class="error-message" id="password-match-error" style="color: red; display: none;">Passwords do not match.</p>
+                    
+                    {% if messages %}
+                        <div class="message">
+                            {% for message in messages %}
+                            <p id="{% if message.tags %}{{ message.extra_tags }}{% endif %}">
+                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Submit Button -->
+                    <div class="center-element">
+                        <button type="submit" id="setPasswordButton" class="button" disabled>Set Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Account Modal -->
+    <div id="deleteEmailModal" class="modal">
+        <div class="modal-content">
+            <span id="closeDeleteModal" class="close">&times;</span>
+            <div class="center-element">
+                <h2>Delete Account</h2>
+            </div>
+
+            <!-- Ensure the form action points to 'delete_email' URL -->
+            <form method="post" action="{% url 'delete_email' %}">
+                {% csrf_token %}
+                
+                <div class="infoType">
+                    <label for="delete-current-password">Current Password</label>
+                    <div class="password-container">
+                        <input type="password" id="delete-current-password" name="current_password" required><br>
+                        {% load static %}
+                        <img src="{% static 'images/eye_hide.svg' %}" id="delete-toggle-password" class="toggle-text" data-eye-show="{% static 'images/eye.svg' %}" data-eye-hide="{% static 'images/eye_hide.svg' %}">
+                    </div>
+                </div>
+
+                <p class="error-message" id="delete-password-error" style="color: red; display: none;">Incorrect password.</p>
+                
+                <div class="center-element">
+                    <button type="submit" id="submitDeleteEmail" class="button" disabled>Delete Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- External JavaScript Files -->
+    <script src="{% static 'js/change_password.js' %}"></script>
+    <script src="{% static 'js/delete_email.js' %}"></script>
+
+    <footer>
+        <p>2024 FOOTPRINT</p>
+    </footer>
+
+</body>
+</html>

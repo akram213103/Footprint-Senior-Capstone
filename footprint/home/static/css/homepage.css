@@ -1,0 +1,216 @@
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #e0e0e0;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 10px; 
+}
+
+/* Section Styles */
+section {
+  background-color: #fff;
+  padding: 30px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 30px; 
+}
+
+/* Text Styling */
+p, ul {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* How Footprint Works Section */
+.how-it-works-section {
+  background-color: #fff;
+  padding: 30px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.process-image {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.process-diagram {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-description {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.tech-stack-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.tech-stack {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.tech-stack li {
+  margin-bottom: 10px;
+}
+
+/* Team Section */
+.team-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .team-container {
+    grid-template-columns: 1fr; 
+  }
+}
+
+.team-member {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.team-member img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.team-member h3 {
+  font-size: 1.6rem; 
+  margin-bottom: 10px;
+}
+
+.team-member p {
+  font-size: 1.2rem; 
+  color: #444; 
+  margin-bottom: 10px;
+}
+
+.team-member a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.team-member a:hover {
+  color: #0056b3; 
+  text-decoration: underline;
+}
+
+/* Video Embed */
+.video-embed iframe {
+  width: 100%;
+  max-width: 700px;
+  height: 400px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Footer Styles */
+footer {
+  border-top: 2px solid #000;
+  padding: 20px 0;
+  text-align: center;
+  font-weight: 500;
+  background-color: #ffffff;
+  width: 100%;
+  margin-top: auto; 
+}
+
+.hero-banner {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  gap: 20rem; 
+  background-color: #f4f4f4;
+  padding: 1rem; 
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center; 
+}
+
+/* Center Table in Tab Section */
+.tab-content table {
+  margin: 0 auto; 
+  text-align: center;
+  width: 90%; 
+}
+
+.tab-content th, .tab-content td {
+  padding: 0.75rem; 
+  text-align: center; 
+}
+
+.tab-content thead th {
+  background-color: #f4f4f4;
+  border-bottom: 2px solid #ddd;
+}
+
+.tab-content tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tab-content tbody tr:hover {
+  background-color: #eaeaea;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 0.5rem;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  text-align: center;
+}
+
+.tab-button.active {
+  background: #3b82f6;
+  color: white;
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
